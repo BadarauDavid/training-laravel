@@ -1,0 +1,19 @@
+
+.item {
+    padding: 10px;
+    display: inline-block;
+    vertical-align: middle
+}
+
+
+input {
+    margin-bottom: 4px;
+}
+
+input.contact {
+    height: 30px;
+}
+
+input.comment {
+    height: 60px;
+}
