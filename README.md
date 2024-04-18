@@ -36,4 +36,6 @@ Fields: id (product ID), creation_date, customer_contact, customer_comment, tota
 
 - Clone this project
 - npm install in console
-- Start Apache and MySQL an acces http://localhost/index.php
+- php artisan migrate:fresh (to do all migrates )
+- php artisan db:seed (to seed db)
+- Start Apache and MySQL and access http://localhost/index.php
