@@ -6,19 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Product extends Model
+class Order extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'title',
-        'description',
-        'price',
-        'img_link',
+        'customer_name',
+        'customer_contact',
+        'customer_comment',
     ];
 
-    public function order(): BelongsToMany
+    public function product(): BelongsToMany
     {
-        return $this->belongsToMany(Order::class, 'order_product');
+        return $this->belongsToMany(Product::class, 'order_product');
     }
 }
