@@ -19,17 +19,17 @@ class LoginController extends Controller
         ]);
         $email = $validatedData['email'];
         $password = $validatedData['password'];
-var_dump($validatedData);
+        var_dump($validatedData);
 
-        if(auth()->attempt(['email' => $email, 'password' => $password])) {
-            session()->regenerate();
-            session()->flash('success', 'You successfully logged in');
-            return redirect()->route('index');
+        if (!auth()->attempt(['email' => $email, 'password' => $password])) {
+            return back()
+                ->withInput()
+                ->withErrors(['email' => 'Email or password is incorrect']);
         }
 
+        session()->regenerate();
+        session()->flash('success', 'You successfully logged in');
+        return redirect()->route('index');
 
-        return back()
-            ->withInput()
-            ->withErrors(['email' => 'Email or password is incorrect']);
     }
 }
