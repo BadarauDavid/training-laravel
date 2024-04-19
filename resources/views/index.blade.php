@@ -8,9 +8,9 @@
 </head>
 <body>
 <h1>{{ __('All products') }}</h1>
-{{--<a href="{{ route('cart') }}">{{ __('Go to cart') }}</a>--}}
+<a href="{{ route('cart') }}">{{ __('Go to cart') }}</a>
 {{--<a href="{{ route('products.index') }}">{{ __('Products') }}</a>--}}
-@if ($products->isEmpty())
+@if (empty($products))
     <h3>{{ __('No Products') }}</h3>
 @else
     @foreach ($products as $product)

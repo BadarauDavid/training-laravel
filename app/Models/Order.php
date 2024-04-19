@@ -16,6 +16,13 @@ class Order extends Model
         'customer_comment',
     ];
 
+    public static function create(array $validatedData)
+    {
+        $newOrder = new Order();
+        $newOrder->fill($validatedData);
+        $newOrder->save();
+    }
+
     public function product(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'order_product');
