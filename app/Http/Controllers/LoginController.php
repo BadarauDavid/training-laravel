@@ -22,6 +22,7 @@ class LoginController extends Controller
 var_dump($validatedData);
 
         if(auth()->attempt(['email' => $email, 'password' => $password])) {
+            session()->regenerate();
             session()->flash('success', 'You successfully logged in');
             return redirect()->route('index');
         }
