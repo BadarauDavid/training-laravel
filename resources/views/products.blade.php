@@ -3,22 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ __('Home') }}</title>
+    <title>{{ __('Products') }}</title>
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
 </head>
 <body>
 <h1>{{ __('All products') }}</h1>
-<a href="{{ route('cart') }}">{{ __('Go to cart') }}</a>
-@guest
-    <a href="{{ route('login') }}">{{ __('Login') }}</a>
-@else
-    <a href="{{ route('products') }}">{{ __('All Products') }}</a>
-<form method="POST" action="/logout">
-    @csrf
-    <button type="submit">Log Out</button>
-</form>
-@endguest
-{{--<a href="{{ route('products.index') }}">{{ __('Products') }}</a>--}}
+<a href="{{ route('index') }}">{{ __('Go to index') }}</a>
+
 @if (empty($products))
     <h3>{{ __('No Products') }}</h3>
 @else
@@ -35,7 +26,7 @@
             </div>
 
             <div class="item">
-                <a href="{{ route('addToCart', ['productId' => $product->id]) }}">{{ __('Add') }}</a>
+                <a href="{{ route('deleteProduct', ['productId' => $product->id]) }}">{{ __('Delete') }}</a>
             </div>
         </div>
     @endforeach
@@ -46,7 +37,6 @@
             {{session('success')}}
         </p>
     </div>
-
 @endif
 </body>
 </html>

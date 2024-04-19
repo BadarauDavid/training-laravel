@@ -19,6 +19,13 @@ class Product extends Model
         'img_link',
     ];
 
+    public static function addProduct(array $product)
+    {
+        $newProduct = new Product();
+        $newProduct->fill($product);
+        $newProduct->save();
+    }
+
     public function order(): BelongsToMany
     {
         return $this->belongsToMany(Order::class, 'order_product');
