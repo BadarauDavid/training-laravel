@@ -9,6 +9,14 @@
 <body>
 <h1>{{ __('All products') }}</h1>
 <a href="{{ route('cart') }}">{{ __('Go to cart') }}</a>
+@guest
+    <a href="{{ route('login') }}">{{ __('Login') }}</a>
+@else
+<form method="POST" action="/logout">
+    @csrf
+    <button type="submit">Log Out</button>
+</form>
+@endguest
 {{--<a href="{{ route('products.index') }}">{{ __('Products') }}</a>--}}
 @if (empty($products))
     <h3>{{ __('No Products') }}</h3>
@@ -30,6 +38,14 @@
             </div>
         </div>
     @endforeach
+@endif
+@if(session()->has('success'))
+    <div class="success">
+        <p>
+            {{session('success')}}
+        </p>
+    </div>
+
 @endif
 </body>
 </html>

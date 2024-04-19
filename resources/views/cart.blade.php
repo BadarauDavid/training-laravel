@@ -36,21 +36,21 @@
         <input type="text"
                name="customer_name"
                placeholder="{{ __('Name')}}"
-               value="{{old('name')}}"
+               value="{{old('customer_name')}}"
         ><br>
 
         <input class="contact"
                type="text"
                name="customer_contact"
                placeholder="{{ __('Contact Details') }}"
-               value="{{old('contact')}}"
+               value="{{old('customer_contact')}}"
         ><br>
 
         <input class="comment"
                type="text"
                name="customer_comment"
                placeholder="{{__('Comments')}}"
-               value="{{old('comment')}}"
+               value="{{old('customer_comment')}}"
         ><br>
 
         <button type="submit">{{__('Checkout')}}</button>

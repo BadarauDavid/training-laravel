@@ -87,11 +87,10 @@ class CartController extends Controller
         $to = config('mail.to.address');
 
         Mail::to($to)->send(new NewOrderMail($subject, $products, $validatedData['customer_name'], $validatedData['customer_contact'], $validatedData['customer_comment']));
-//            Mail::raw('Test',function($message){
-//                $message->to("admin@gmail.com")->subject("New Order");
-//            });
 
         $request->session()->put('cart', []);
+
+        session()->flash('success', 'Your order has been placed');
         return redirect()->route('index');
     }
 }

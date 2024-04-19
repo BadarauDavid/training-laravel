@@ -5,6 +5,13 @@
     vertical-align: middle
 }
 
+.success {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    background-color: greenyellow;
+    color: black;
+}
 
 input {
     margin-bottom: 4px;
