@@ -18,7 +18,7 @@ class ProductController extends Controller
     public function edit(Request $request)
     {
         $id = $request->input('productId');
-        $product = Product::findById($id);
+        $product = Product::find($id);
         if (!$product) {
             abort(404);
         }
@@ -34,7 +34,20 @@ class ProductController extends Controller
             'img_link' => ['image', 'sometimes'],
         ]);
 
-        Product::updateProduct($request);
+        $id = $request->input('id');
+
+        $product = Product::find($id);
+        $product->title = $request->input('title');
+        $product->description = $request->input('description');
+        $product->price = $request->input('price');
+
+        if ($request->hasFile('img_link')) {
+            $imageName = uniqid() . '.' . $request->file('img_link')->getClientOriginalExtension();
+            $request->file('img_link')->storeAs('public/images', $imageName);
+            $product->img_link = $imageName;
+        }
+
+        $product->save();
         session()->flash('success', 'The product was successfully updated');
         return redirect()->route('products');
     }
@@ -46,9 +59,7 @@ class ProductController extends Controller
                 return !is_null($item);
             })->values()->all();
 
-            $products = DB::table('products')
-                ->whereNotIn('id', $cartItems)
-                ->get();
+            $products = Product::whereNotIn('id', $cartItems)->get();
 
         } else {
             $products = Product::all();
@@ -94,7 +105,9 @@ class ProductController extends Controller
             'img_link' => $imageName,
         ];
 
-        Product::addProduct($product);
+        $newProduct = new Product();
+        $newProduct->fill($product);
+        $newProduct->save();
 
         session()->flash('success', 'The product was successfully added');
 

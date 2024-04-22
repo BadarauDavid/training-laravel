@@ -9,6 +9,7 @@
 <body>
 <h1>{{ __('All products') }}</h1>
 <a href="{{ route('index') }}">{{ __('Go to index') }}</a>
+<a href="{{ route('addProduct') }}">{{ __('Add Product') }}</a>
 
 @if (empty($products))
     <h3>{{ __('No Products') }}</h3>
