@@ -42,4 +42,23 @@ class Order extends Model
             ->groupBy('orders.id', 'orders.created_at')
             ->get();
     }
+
+    public static function findOrderById($orderId)
+    {
+        $orderDetails = DB::table('orders')
+            ->where('orders.id', $orderId)
+            ->first();
+
+
+        $orderProducts = DB::table('products')
+            ->select('products.*')
+            ->leftJoin('order_product', 'products.id', '=', 'order_product.product_id')
+            ->where('order_product.order_id', $orderId)
+            ->get();
+
+        $orderDetails->products = $orderProducts;
+
+        return ['details' => $orderDetails,
+            'products' => $orderProducts,];
+    }
 }

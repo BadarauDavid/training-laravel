@@ -13,10 +13,11 @@
     <a href="{{ route('login') }}">{{ __('Login') }}</a>
 @else
     <a href="{{ route('products') }}">{{ __('All Products') }}</a>
-<form method="POST" action="/logout">
-    @csrf
-    <button type="submit">Log Out</button>
-</form>
+    <a href="{{ route('orders') }}">{{ __('All Orders') }}</a>
+    <form method="POST" action="/logout">
+        @csrf
+        <button type="submit">Log Out</button>
+    </form>
 @endguest
 {{--<a href="{{ route('products.index') }}">{{ __('Products') }}</a>--}}
 @if (empty($products))
@@ -25,7 +26,8 @@
     @foreach ($products as $product)
         <div class="container">
             <div class="item">
-                <img style="height: 120px; width: 120px;" alt="img" src="{{ asset('storage/images/' . $product->img_link) }}">
+                <img style="height: 120px; width: 120px;" alt="img"
+                     src="{{ asset('storage/images/' . $product->img_link) }}">
             </div>
 
             <div class="item">

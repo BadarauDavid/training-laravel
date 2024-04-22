@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Mail\NewOrderMail;
 use App\Models\Order;
-use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -81,7 +80,7 @@ class CartController extends Controller
             'customer_comment' => ['required'],
         ]);
 
-       $order = Order::create($validatedData);
+        $order = Order::create($validatedData);
         $products = $this->fetchProductsFromCart($request);
 
         $order->product()->attach($request->session()->get('cart', []));

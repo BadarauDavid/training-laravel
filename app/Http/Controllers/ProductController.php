@@ -10,11 +10,13 @@ use Illuminate\Support\Facades\DB;
 class ProductController extends Controller
 {
 
-    public function addProduct(){
+    public function addProduct()
+    {
         return view('addProduct');
     }
 
-    public function edit(Request $request){
+    public function edit(Request $request)
+    {
         $id = $request->input('productId');
         $product = Product::findById($id);
         if (!$product) {

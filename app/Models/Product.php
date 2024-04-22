@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use http\Env\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class Product extends Model
@@ -50,12 +48,12 @@ class Product extends Model
         if ($request->hasFile('img_link')) {
             $imageName = uniqid() . '.' . $request->file('img_link')->getClientOriginalExtension();
             $request->file('img_link')->storeAs('public/images', $imageName);
-            $product->img_link =  $imageName;
+            $product->img_link = $imageName;
         }
 
         DB::table('products')
             ->where('id', $id)
-            ->update(['title' => $product->title, 'description' => $product->description, 'price' => $product->price, 'img_link'=>$product->img_link]);
+            ->update(['title' => $product->title, 'description' => $product->description, 'price' => $product->price, 'img_link' => $product->img_link]);
 
     }
 

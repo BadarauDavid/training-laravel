@@ -15,7 +15,7 @@
 @else
     @foreach ($orders as $order)
 
-        <h4>#  {{$order->order_id}}</h4>
+        <h4># <a href="{{ route('order', ['productId' => $order->order_id]) }}">{{$order->order_id}}</a></h4>
         <h4>{{__('Price')}} : {{$order->total_price}}</h4>
         <h4>{{__('Summary')}} : {{$order->product_titles}}</h4>
         <h4>{{__('Data')}} : {{$order->order_created_at}}</h4>

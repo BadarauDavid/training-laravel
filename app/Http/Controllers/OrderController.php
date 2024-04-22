@@ -13,4 +13,10 @@ class OrderController extends Controller
 
         return view('orders', compact('orders'));
     }
+
+    public function showOrder(Request $request)
+    {
+        $order = Order::findOrderById($request->input('productId'));
+        return view('order', compact('order'));
+    }
 }
