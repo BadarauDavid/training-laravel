@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Mail\NewOrderMail;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
@@ -18,9 +18,7 @@ class CartController extends Controller
                 return !is_null($item);
             })->values()->all();
 
-            $products = DB::table('products')
-                ->whereIn('id', $cartItems)
-                ->get();
+            $products = Product::whereIn('id', $cartItems)->get();
         } else {
             $products = [];
         }
