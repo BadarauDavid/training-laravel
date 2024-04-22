@@ -16,7 +16,7 @@
     @foreach ($products as $product)
         <div class="container">
             <div class="item">
-                <img style="height: 120px; width: 120px;" alt="img" src="{{ asset('images/' . $product->img_link) }}">
+                <img style="height: 120px; width: 120px;" alt="img" src="{{ asset('storage/images/' . $product->img_link) }}">
             </div>
 
             <div class="item">
@@ -27,6 +27,9 @@
 
             <div class="item">
                 <a href="{{ route('deleteProduct', ['productId' => $product->id]) }}">{{ __('Delete') }}</a>
+            </div>
+            <div class="item">
+                <a href="{{ route('product', ['productId' => $product->id]) }}">{{ __('Edit') }}</a>
             </div>
         </div>
     @endforeach

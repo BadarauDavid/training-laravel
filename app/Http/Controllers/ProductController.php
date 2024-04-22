@@ -13,6 +13,30 @@ class ProductController extends Controller
     public function addProduct(){
         return view('addProduct');
     }
+
+    public function edit(Request $request){
+        $id = $request->input('productId');
+        $product = Product::findById($id);
+        if (!$product) {
+            abort(404);
+        }
+        return view('product', compact('product'));
+    }
+
+    public function update(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'title' => ['required', 'sometimes'],
+            'description' => ['required', 'sometimes'],
+            'price' => ['required', 'numeric', 'sometimes'],
+            'img_link' => ['image', 'sometimes'],
+        ]);
+
+        Product::updateProduct($request);
+        session()->flash('success', 'The product was successfully updated');
+        return redirect()->route('products');
+    }
+
     public function index(Request $request)
     {
         if (!empty($request->session()->get('cart', []))) {
@@ -23,6 +47,7 @@ class ProductController extends Controller
             $products = DB::table('products')
                 ->whereNotIn('id', $cartItems)
                 ->get();
+
         } else {
             $products = Product::all();
         }
@@ -50,7 +75,7 @@ class ProductController extends Controller
 
     public function handleAddProduct(Request $request): RedirectResponse
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'title' => ['required'],
             'description' => ['required'],
             'price' => ['required', 'numeric'],

@@ -20,10 +20,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/index', [ProductController::class,'index'])->name('index');
 Route::get('/cart', [CartController::class,'allProductsFromCart'])->name('cart');
 Route::get('/products', [ProductController::class,'allProducts'])->name('products')->middleware('auth');
+Route::get('/addProduct', [ProductController::class,'addProduct'])->name('addProduct')->middleware('auth');
+Route::get('/product', [ProductController::class,'edit'])->name('product')->middleware('auth');
+
 
 Route::get('/deleteProduct', [ProductController::class,'deleteProduct'])->name('deleteProduct')->middleware('auth');
 Route::post('/handleAddProduct', [ProductController::class,'handleAddProduct'])->name('handleAddProduct')->middleware('auth');
-Route::get('/addProduct', [ProductController::class,'addProduct'])->name('addProduct')->middleware('auth');
+Route::put('/update', [ProductController::class,'update'])->name('update')->middleware('auth');
 
 Route::get('/addToCart', [CartController::class,'addToCart'])->name('addToCart');
 Route::get('/deleteFromCart', [CartController::class,'deleteFromCart'])->name('deleteFromCart');
