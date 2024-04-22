@@ -16,7 +16,7 @@
     @foreach ($products as $product)
         <div class="container">
             <div class="item">
-                <img style="height: 120px; width: 120px;" alt="img" src="{{ asset('images/' . $product->img_link) }}">
+                <img style="height: 120px; width: 120px;" alt="img" src="{{ asset('storage/images/' . $product->img_link) }}">
             </div>
 
             <div class="item">

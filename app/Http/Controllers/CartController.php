@@ -81,8 +81,10 @@ class CartController extends Controller
             'customer_comment' => ['required'],
         ]);
 
-        Order::create($validatedData);
+       $order = Order::create($validatedData);
         $products = $this->fetchProductsFromCart($request);
+
+        $order->product()->attach($request->session()->get('cart', []));
         $subject = "New Order";
         $to = config('mail.to.address');
 
@@ -93,4 +95,6 @@ class CartController extends Controller
         session()->flash('success', 'Your order has been placed');
         return redirect()->route('index');
     }
+
+
 }

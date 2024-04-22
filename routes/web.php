@@ -3,6 +3,7 @@
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/index', [ProductController::class,'index'])->name('index');
 Route::get('/cart', [CartController::class,'allProductsFromCart'])->name('cart');
 Route::get('/products', [ProductController::class,'allProducts'])->name('products')->middleware('auth');
+Route::get('/orders', [OrderController::class,'allOrders'])->name('orders')->middleware('auth');
 Route::get('/addProduct', [ProductController::class,'addProduct'])->name('addProduct')->middleware('auth');
 Route::get('/product', [ProductController::class,'edit'])->name('product')->middleware('auth');
 
