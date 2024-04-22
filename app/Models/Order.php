@@ -26,39 +26,10 @@ class Order extends Model
         return $newOrder;
     }
 
-    public function product(): BelongsToMany
+    public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'order_product');
     }
 
-    public static function findAllOrders()
-    {
-        return DB::table('orders')
-            ->select('orders.id AS order_id', 'orders.created_at AS order_created_at',
-                DB::raw('SUM(products.price) AS total_price'),
-                DB::raw('GROUP_CONCAT(products.title SEPARATOR ", ") AS product_titles'))
-            ->leftJoin('order_product', 'orders.id', '=', 'order_product.order_id')
-            ->leftJoin('products', 'order_product.product_id', '=', 'products.id')
-            ->groupBy('orders.id', 'orders.created_at')
-            ->get();
-    }
 
-    public static function findOrderById($orderId)
-    {
-        $orderDetails = DB::table('orders')
-            ->where('orders.id', $orderId)
-            ->first();
-
-
-        $orderProducts = DB::table('products')
-            ->select('products.*')
-            ->leftJoin('order_product', 'products.id', '=', 'order_product.product_id')
-            ->where('order_product.order_id', $orderId)
-            ->get();
-
-        $orderDetails->products = $orderProducts;
-
-        return ['details' => $orderDetails,
-            'products' => $orderProducts,];
-    }
 }

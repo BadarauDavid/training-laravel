@@ -9,7 +9,7 @@
 <body>
 <h1>{{ __('Order') }}</h1>
 <a href="{{ route('orders') }}">{{ __('All Orders') }}</a>
-@foreach ($order['products'] as $product)
+@foreach ($order->products as $product)
     <div class="container">
         <div class="item">
             <img style="height: 120px; width: 120px;" alt="img"
@@ -22,8 +22,8 @@
         </div>
     </div>
 @endforeach
-<h3>{{ __('Customer Name') }}: {{ $order['details']->customer_name }}</h3>
-<p>{{ __('Customer Contact') }}: {{ $order['details']->customer_contact }}</p>
-<p>{{ __('Customer Comment') }}: {{ $order['details']->customer_comment }}</p>
+<h3>{{ __('Customer Name') }}: {{ $order->customer_name }}</h3>
+<p>{{ __('Customer Contact') }}: {{ $order->customer_contact }}</p>
+<p>{{ __('Customer Comment') }}: {{ $order->customer_comment }}</p>
 </body>
 </html>

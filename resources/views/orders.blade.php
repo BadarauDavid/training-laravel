@@ -10,6 +10,8 @@
 <h1>{{ __('All orders') }}</h1>
 <a href="{{ route('index') }}">{{ __('Go to index') }}</a>
 
+
+
 @if (empty($orders))
     <h3>{{ __('No Orders') }}</h3>
 @else
