@@ -81,7 +81,7 @@ class CartController extends Controller
         $order = Order::create($validatedData);
         $products = $this->fetchProductsFromCart($request);
 
-        $order->product()->attach($request->session()->get('cart', []));
+        $order->products()->attach($request->session()->get('cart', []));
         $subject = "New Order";
         $to = config('mail.to.address');
 
