@@ -1,6 +1,6 @@
 <html>
 <head>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Load the jQuery JS library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
@@ -10,9 +10,6 @@
             return label
         }
 
-        $(document).on('click', '#submit', function () {
-            alert("button is clicked");
-        });
 
         $(document).ready(function () {
 
@@ -65,7 +62,15 @@
                     html += '</div>';
                 });
                 if (page === 'cart' && products.length > 0) {
-                    html += '<input id="submit" type="submit" name="checkout" value="Submit">'
+                    html += '<form action="#">';
+                    html += '<input id="name" type="text" name="name" placeholder="' + translate('Name') + '"><br> ';
+                    html += '<div style="color:red;" id="costumerNameError" class="error"></div>';
+                    html += '<input id="contact" type="text" name="contact" placeholder="' + translate('Contact Details') + '"><br> ';
+                    html += '<div style="color:red;" id="costumerContactError" class="error"></div>';
+                    html += '<input id="comment" type="text" name="comment" placeholder="' + translate('Comments') + '"><br> ';
+                    html += '<div style="color:red;" id="costumerCommentError" class="error"></div>';
+                    html += '<input id="submit" type="submit" name="checkout" value="Submit">';
+                    html += '</form>';
                 }
                 return html;
             }
@@ -131,6 +136,47 @@
             }
             window.onhashchange();
 
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $(document).on('click', '#submit', function () {
+                const x = $("form").serializeArray();
+
+                let name = $("#name").val();
+                let contact = $("#contact").val();
+                let comment = $("#comment").val();
+
+                $.ajax({
+                    type: 'post',
+                    url: '/checkOutCart',
+                    dataType: 'json',
+                    data: {
+                        'customer_name': name,
+                        'customer_contact': contact,
+                        'customer_comment': comment
+                    },
+                    success: function () {
+                        window.location.hash = "#";
+                    },
+                    error: function (response) {
+                        const res = response.responseJSON.errors;
+                        if (res.customer_name) {
+                            $('#costumerNameError').text(res.customer_name);
+                        }
+
+                        if (res.customer_contact) {
+                            $('#costumerContactError').text(res.customer_contact);
+                        }
+
+                        if (res.customer_comment) {
+                            $('#costumerCommentError').text(res.customer_comment);
+                        }
+                    }
+                });
+            });
         });
     </script>
 </head>
