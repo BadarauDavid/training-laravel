@@ -2,9 +2,18 @@
 <head>
 
     <!-- Load the jQuery JS library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <!-- Custom JS script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
     <script type="text/javascript">
+
+        function translate(label) {
+            return label
+        }
+
+        $(document).on('click', '#submit', function () {
+            alert("button is clicked");
+        });
+
         $(document).ready(function () {
 
             /**
@@ -14,16 +23,15 @@
                 let html = '';
                 switch (page) {
                     case 'all' :
-                        html = 'All Product';
+                        html = translate('All Product');
                         break
                     case 'cart' :
-                        html = 'All Cart Product';
+                        html = translate('All Cart Product');
                         break
                     case 'admin' :
-                        html = 'All Products';
+                        html = translate('All Products');
                         break
                 }
-
 
                 $.each(products, function (key, product) {
 
@@ -32,18 +40,18 @@
                     html += '<img style="height: 120px; width: 120px;" alt="img" src="{{ asset("storage/images") }}/' + product.img_link + '">';
                     html += '</div>';
                     html += '<div class="item">';
-                    html += '<h3>Title: ' + product.title + '</h3>';
-                    html += '<p>Description: ' + product.description + '</p>';
-                    html += '<p>Price: ' + product.price + '</p>';
+                    html += '<h3>' + translate('Title') + ': ' + product.title + '</h3>';
+                    html += '<p>' + translate('Description') + ' : ' + product.description + '</p>';
+                    html += '<p>' + translate('Price') + ' : ' + product.price + '</p>';
                     html += '</div>';
                     html += '<div class="item">';
 
                     switch (page) {
                         case 'all' :
-                            html += '<a class="button" href="#' + product.id + '">Add</a>';
+                            html += '<a class="button" href="#' + product.id + '">' + translate('Add') + '</a>';
                             break
                         case 'cart' :
-                            html += '<a class="button" href="#cart/' + product.id + '">Remove</a>';
+                            html += '<a class="button" href="#cart/' + product.id + '">' + translate('Remove') + '</a>';
                             break
                         //TO-DO
                         // case 'admin' :
@@ -56,7 +64,9 @@
                     html += '</div>';
                     html += '</div>';
                 });
-
+                if (page === 'cart' && products.length > 0) {
+                    html += '<input id="submit" type="submit" name="checkout" value="Submit">'
+                }
                 return html;
             }
 
@@ -125,7 +135,6 @@
     </script>
 </head>
 <body>
-<!-- The index page -->
 <div class="page index">
     <!-- The index element where the products list is rendered -->
     <table class="list"></table>
