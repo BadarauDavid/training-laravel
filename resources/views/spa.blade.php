@@ -10,7 +10,6 @@
             return label
         }
 
-
         $(document).ready(function () {
 
             /**
@@ -69,7 +68,7 @@
                     html += '<div style="color:red;" id="costumerContactError" class="error"></div>';
                     html += '<input id="comment" type="text" name="comment" placeholder="' + translate('Comments') + '"><br> ';
                     html += '<div style="color:red;" id="costumerCommentError" class="error"></div>';
-                    html += '<input id="submit" type="submit" name="checkout" value="Submit">';
+                    html += '<input id="submitCheckOut" type="submit" name="checkout" value="Submit">';
                     html += '</form>';
                 }
                 return html;
@@ -142,7 +141,7 @@
                 }
             });
 
-            $(document).on('click', '#submit', function () {
+            $(document).on('click', '#submitCheckOut', function () {
                 const x = $("form").serializeArray();
 
                 let name = $("#name").val();
