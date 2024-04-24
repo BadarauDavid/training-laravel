@@ -17,13 +17,20 @@ class OrderController extends Controller
             ->groupBy('orders.id', 'orders.created_at')
             ->get();
 
-        return view('orders', compact('orders'));
+        $data = compact('orders');
+
+        return request()->isXmlHttpRequest() ?
+            compact('data') : view('orders', $data);
     }
 
     public function showOrder(Request $request)
     {
         $orderId = $request->input('productId');
         $order = Order::where('id', $orderId)->with('products')->first();
-        return view('order', compact('order'));
+
+        $data = compact('order');
+
+        return request()->isXmlHttpRequest() ?
+            compact('data') : view('order', $data);
     }
 }

@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -22,10 +20,14 @@ class ProductController extends Controller
         if (!$product) {
             abort(404);
         }
-        return view('product', compact('product'));
+
+        $data = compact('product');
+
+        return request()->isXmlHttpRequest() ?
+            compact('data') : view('product', $data);
     }
 
-    public function update(Request $request): RedirectResponse
+    public function update(Request $request)
     {
         $request->validate([
             'title' => ['required', 'sometimes'],
@@ -48,8 +50,12 @@ class ProductController extends Controller
         }
 
         $product->save();
-        session()->flash('success', 'The product was successfully updated');
-        return redirect()->route('products');
+
+        $message = 'The product was successfully updated';
+        session()->flash('success', $message);
+
+        return request()->isXmlHttpRequest() ?
+            response()->json(['success' => 'The product was successfully updated']) : redirect()->route('products');
     }
 
     public function index(Request $request)
@@ -65,28 +71,35 @@ class ProductController extends Controller
             $products = Product::all();
         }
 
-        return view('index', compact('products'));
+        $data = compact('products');
+
+        return request()->isXmlHttpRequest() ?
+            compact('data') : view('index', $data);
     }
 
     public function allProducts()
     {
         $products = Product::all();
 
-        return view('products', compact('products'));
+        $data = compact('products');
+        return request()->isXmlHttpRequest() ?
+            compact('data') : view('products', $data);
     }
 
-    public function deleteProduct(Request $request): RedirectResponse
+    public function deleteProduct(Request $request)
     {
         $id = $request->input('productId');
 
         Product::destroy($id);
 
-        session()->flash('success', 'The product was successfully deleted');
+        $message = 'The product was successfully deleted';
+        session()->flash('success', $message);
 
-        return redirect()->route('products');
+        return request()->isXmlHttpRequest() ?
+            response()->json(['success' => $message]) : redirect()->route('products');
     }
 
-    public function handleAddProduct(Request $request): RedirectResponse
+    public function handleAddProduct(Request $request)
     {
         $request->validate([
             'title' => ['required'],
@@ -109,8 +122,10 @@ class ProductController extends Controller
         $newProduct->fill($product);
         $newProduct->save();
 
-        session()->flash('success', 'The product was successfully added');
+        $message = 'The product was successfully added';
+        session()->flash('success', $message);
 
-        return redirect()->route('products');
+        return request()->isXmlHttpRequest() ?
+            response()->json(['success' => $message]) : redirect()->route('products');
     }
 }

@@ -10,8 +10,10 @@ class LogoutController extends Controller
     {
         auth()->logout();
 
-        session()->flash('success', 'You have been logged out');
+        $message = 'You have been logged out';
+        session()->flash('success', $message);
 
-        return redirect()->route('index');
+        return request()->isXmlHttpRequest() ?
+            response()->json(['success' => $message]) : redirect()->route('index');
     }
 }

@@ -19,7 +19,6 @@ class LoginController extends Controller
         ]);
         $email = $validatedData['email'];
         $password = $validatedData['password'];
-        var_dump($validatedData);
 
         if (!auth()->attempt(['email' => $email, 'password' => $password])) {
             return back()
@@ -28,8 +27,12 @@ class LoginController extends Controller
         }
 
         session()->regenerate();
-        session()->flash('success', 'You successfully logged in');
-        return redirect()->route('index');
+        session()->put('role', 'admin');
 
+        $message = 'You successfully logged in';
+        session()->flash('success', $message);
+
+        return request()->isXmlHttpRequest() ?
+            response()->json(['success' => $message]) : redirect()->route('index');
     }
 }
