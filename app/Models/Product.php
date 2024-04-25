@@ -17,7 +17,7 @@ class Product extends Model
         'img_link',
     ];
 
-    public function order(): BelongsToMany
+    public function orders(): BelongsToMany
     {
         return $this->belongsToMany(Order::class, 'order_product');
     }
