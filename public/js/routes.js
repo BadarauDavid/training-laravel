@@ -6,6 +6,48 @@ $(document).ready(function () {
         }
     });
 
+
+    $(document).on('click', '#submitProduct', function (e) {
+        e.preventDefault();
+
+        let formData = new FormData();
+        formData.append('title', $("#title").val());
+        formData.append('description', $("#description").val());
+        formData.append('price', $("#price").val());
+        formData.append('img_link', $('#fileToUpload')[0].files[0]);
+
+
+        console.log(title, description, price, fileToUpload);
+        $.ajax('/handleAddProduct', {
+            type: 'post',
+            dataType: 'json',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function () {
+                window.location.hash = "#products";
+            },
+            error: function (response) {
+                const res = response.responseJSON.errors;
+                if (res.title) {
+                    $('#titleErrorMsg').text(res.title);
+                }
+
+                if (res.description) {
+                    $('#descriptionErrorMsg').text(res.description);
+                }
+
+                if (res.price) {
+                    $('#priceErrorMsg').text(res.price);
+                }
+
+                if (res.img_link) {
+                    $('#fileErrorMsg').text(res.img_link);
+                }
+            }
+        });
+    })
+
     $(document).on('click', '#submitLogin', function (e) {
         e.preventDefault();
         let email = $("#email").val();
@@ -119,10 +161,10 @@ $(document).ready(function () {
 
             case '#products':
                 $('.products').show();
-                $.ajax('/products',{
+                $.ajax('/products', {
                     dataType: 'json',
                     success: function (response) {
-                        $('.products .list').html(renderList(response.data.products,'admin'));
+                        $('.products .list').html(renderList(response.data.products, 'admin'));
                     },
                     error: function () {
                         window.location.hash = '#login';
@@ -138,6 +180,11 @@ $(document).ready(function () {
                         console.log(response);
                     }
                 });
+                break;
+
+            case '#product':
+                $('.product').show();
+                $('.product .product-form').html(renderProductForm());
                 break;
 
             default:

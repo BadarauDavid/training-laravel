@@ -3,7 +3,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Load the jQuery JS library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
 </head>
 <body>
 
@@ -38,9 +38,15 @@
     <form class="login-form"></form>
 </div>
 
+<!-- The add product page -->
+<div class="page product">
+    <form class="product-form"></form>
+</div>
+
 </body>
 <script type="text/javascript" rel="javascript" src="{{ asset('js/common.js') }}"></script>
 <script type="text/javascript" rel="javascript" src="{{ asset('js/routes.js') }}"></script>
 <script type="text/javascript" rel="javascript" src="{{ asset('js/login.js') }}"></script>
+<script type="text/javascript" rel="javascript" src="{{ asset('js/product.js') }}"></script>
 
 </html>

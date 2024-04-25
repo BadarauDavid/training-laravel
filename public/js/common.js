@@ -2,6 +2,16 @@ function translate(label) {
     return label
 }
 
+function escapeHtml(unsafe)
+{
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
 
 function renderList(products, page) {
     let html = '';
@@ -38,7 +48,7 @@ function renderList(products, page) {
                 html += '<a class="button" href="#cart/' + product.id + '">' + translate('Remove') + '</a>';
                 break
             case 'admin' :
-                html += '<a class="button" href="#products/' + product.id + '">' + translate('Delete') + ' </a> <br>';
+                html += '<a class="button" href="#products/' + product.id + '">' + translate('Delete') + ' </a>';
                 html += '<a class="button" href="#product/' + product.id + '">' + translate('Edit') + '</a>';
                 break
         }
