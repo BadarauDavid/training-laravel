@@ -96,15 +96,15 @@ $(document).ready(function () {
             error: function (response) {
                 const res = response.responseJSON.errors;
                 if (res.customer_name) {
-                    $('#costumerNameError').text(res.customer_name);
+                    $('#costumerNameErrorMsg').text(res.customer_name);
                 }
 
                 if (res.customer_contact) {
-                    $('#costumerContactError').text(res.customer_contact);
+                    $('#costumerContactErrorMsg').text(res.customer_contact);
                 }
 
                 if (res.customer_comment) {
-                    $('#costumerCommentError').text(res.customer_comment);
+                    $('#costumerCommentErrorMsg').text(res.customer_comment);
                 }
             }
         });

@@ -60,11 +60,11 @@ function renderList(products, page) {
     if (page === 'cart' && products.length > 0) {
         html += '<form action="#">';
         html += '<input id="name" type="text" name="name" placeholder="' + translate('Name') + '"><br> ';
-        html += '<div style="color:red;" id="costumerNameError" class="error"></div>';
+        html += '<div style="color:red;" id="costumerNameErrorMsg" class="error"></div>';
         html += '<input id="contact" type="text" name="contact" placeholder="' + translate('Contact Details') + '"><br> ';
-        html += '<div style="color:red;" id="costumerContactError" class="error"></div>';
+        html += '<div style="color:red;" id="costumerContactErrorMsg" class="error"></div>';
         html += '<input id="comment" type="text" name="comment" placeholder="' + translate('Comments') + '"><br> ';
-        html += '<div style="color:red;" id="costumerCommentError" class="error"></div>';
+        html += '<div style="color:red;" id="costumerCommentErrorMsg" class="error"></div>';
         html += '<input id="submitCheckOut" type="submit" name="checkout" value="' + translate('Submit') + '">';
         html += '</form>';
     }
