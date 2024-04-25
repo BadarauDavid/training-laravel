@@ -6,7 +6,7 @@ $(document).ready(function () {
         }
     });
 
-    $('.login-form').on('submit', function (e) {
+    $(document).on('click','#submitLogin', function (e) {
         e.preventDefault();
         let email = $("#email").val();
         let password = $("#password").val();
