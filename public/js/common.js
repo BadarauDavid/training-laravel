@@ -7,7 +7,7 @@ function renderList(products, page) {
     let html = '';
     switch (page) {
         case 'all' :
-            html = translate('All Product');
+            html = translate('Product');
             break
         case 'cart' :
             html = translate('All Cart Product');
@@ -37,11 +37,10 @@ function renderList(products, page) {
             case 'cart' :
                 html += '<a class="button" href="#cart/' + product.id + '">' + translate('Remove') + '</a>';
                 break
-            //TO-DO
-            // case 'admin' :
-            //     html += '<a class="button" href="#index/' + product.id + '">Add</a>';
-            //     html += '<a class="button" href="# + product.id '">Add</a>';
-            //     break
+            case 'admin' :
+                html += '<a class="button" href="#products/' + product.id + '">' + translate('Delete') + ' </a> <br>';
+                html += '<a class="button" href="#product/' + product.id + '">' + translate('Edit') + '</a>';
+                break
         }
 
 

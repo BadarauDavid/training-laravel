@@ -6,14 +6,13 @@ $(document).ready(function () {
         }
     });
 
-    $(document).on('click','#submitLogin', function (e) {
+    $(document).on('click', '#submitLogin', function (e) {
         e.preventDefault();
         let email = $("#email").val();
         let password = $("#password").val();
 
-        $.ajax({
+        $.ajax('/handleLogin', {
             type: 'post',
-            url: '/handleLogin',
             dataType: 'json',
             data: {
                 'email': email,
@@ -41,9 +40,8 @@ $(document).ready(function () {
         let contact = $("#contact").val();
         let comment = $("#comment").val();
 
-        $.ajax({
+        $.ajax('/checkOutCart', {
             type: 'post',
-            url: '/checkOutCart',
             dataType: 'json',
             data: {
                 'customer_name': name,
@@ -80,8 +78,7 @@ $(document).ready(function () {
                 break;
 
             case '#logout':
-                $.ajax({
-                    url: '/logout',
+                $.ajax('/logout', {
                     type: 'post',
                     dataType: 'json',
                     success: function () {
@@ -102,12 +99,7 @@ $(document).ready(function () {
                 break;
 
             case (window.location.hash.match(/#\d+/) || {}).input:
-                productId = window.location.hash.split('#')[1];
-
-
-                // Show the cart page
-                $('.index').show();
-                $.ajax('/addToCart?productId=' + productId, {
+                $.ajax('/addToCart?productId=' + window.location.hash.split('#')[1], {
                     dataType: 'json',
                     success: function () {
                         window.location.hash = "#";
@@ -116,15 +108,34 @@ $(document).ready(function () {
                 break;
 
             case (window.location.hash.match(/#cart\/\d+/) || {}).input:
-                productId = window.location.hash.split('/')[1];
-                console.log('/deleteFromCart?productId=' + productId);
-                // Show the cart page
-                $('.index').show();
-                $.ajax('/deleteFromCart?productId=' + productId, {
+                $.ajax('/deleteFromCart?productId=' + window.location.hash.split('/')[1], {
                     dataType: 'json',
-                    success: function (respnse) {
+                    success: function (response) {
                         window.location.hash = "#cart";
-                        console.log(respnse);
+                        console.log(response);
+                    }
+                });
+                break;
+
+            case '#products':
+                $('.products').show();
+                $.ajax('/products',{
+                    dataType: 'json',
+                    success: function (response) {
+                        $('.products .list').html(renderList(response.data.products,'admin'));
+                    },
+                    error: function () {
+                        window.location.hash = '#login';
+                    }
+                });
+                break;
+
+            case (window.location.hash.match(/#products\/\d+/) || {}).input:
+                $.ajax('/deleteProduct?productId=' + window.location.hash.split('/')[1], {
+                    dataType: 'json',
+                    success: function (response) {
+                        window.location.hash = "#products";
+                        console.log(response);
                     }
                 });
                 break;

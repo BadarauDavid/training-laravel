@@ -24,6 +24,16 @@
     <a href="#" class="button">Go to index</a>
 </div>
 
+<!-- The products page -->
+<div class="page products">
+    <!-- The cart element where the products list is rendered -->
+    <table class="list"></table>
+
+    <!-- A link to go to the index by changing the hash -->
+    <a href="#" class="button">Go to index</a>
+</div>
+
+<!-- The login page -->
 <div class="page login">
     <form class="login-form"></form>
 </div>
