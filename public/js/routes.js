@@ -6,8 +6,36 @@ $(document).ready(function () {
         }
     });
 
+    $('.login-form').on('submit', function (e) {
+        e.preventDefault();
+        let email = $("#email").val();
+        let password = $("#password").val();
+
+        $.ajax({
+            type: 'post',
+            url: '/handleLogin',
+            dataType: 'json',
+            data: {
+                'email': email,
+                'password': password,
+            },
+            success: function () {
+                window.location.hash = "#products";
+            },
+            error: function (response) {
+                const res = response.responseJSON.errors;
+                if (res.email) {
+                    $('#emailErrorMsg').text(res.email);
+                }
+
+                if (res.password) {
+                    $('#passwordErrorMsg').text(res.password);
+                }
+            }
+        });
+    })
+
     $(document).on('click', '#submitCheckOut', function () {
-        const x = $("form").serializeArray();
 
         let name = $("#name").val();
         let contact = $("#contact").val();
@@ -45,6 +73,22 @@ $(document).ready(function () {
     window.onhashchange = function () {
         $('.page').hide();
         switch (window.location.hash) {
+
+            case '#login':
+                $('.login').show();
+                $('.login .login-form').html(login())
+                break;
+
+            case '#logout':
+                $.ajax({
+                    url: '/logout',
+                    type: 'post',
+                    dataType: 'json',
+                    success: function () {
+                        window.location.hash = '#';
+                    }
+                });
+                break
 
             case '#cart':
                 $('.cart').show();

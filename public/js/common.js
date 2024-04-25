@@ -21,7 +21,7 @@ function renderList(products, page) {
 
         html += '<div class="container">';
         html += '<div style="padding: 10px; vertical-align: middle;" class="item" >';
-        html += '<img style="height: 120px; width: 120px;" alt="img" src="storage/images/'+ product.img_link + '">';
+        html += '<img style="height: 120px; width: 120px;" alt="img" src="storage/images/' + product.img_link + '">';
         html += '</div>';
         html += '<div class="item">';
         html += '<h3>' + translate('Title') + ': ' + product.title + '</h3>';
@@ -56,7 +56,7 @@ function renderList(products, page) {
         html += '<div style="color:red;" id="costumerContactError" class="error"></div>';
         html += '<input id="comment" type="text" name="comment" placeholder="' + translate('Comments') + '"><br> ';
         html += '<div style="color:red;" id="costumerCommentError" class="error"></div>';
-        html += '<input id="submitCheckOut" type="submit" name="checkout" value="Submit">';
+        html += '<input id="submitCheckOut" type="submit" name="checkout" value="' + translate('Submit') + '">';
         html += '</form>';
     }
     return html;

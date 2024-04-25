@@ -24,7 +24,13 @@
     <a href="#" class="button">Go to index</a>
 </div>
 
+<div class="page login">
+    <form class="login-form"></form>
+</div>
+
 </body>
 <script type="text/javascript" rel="javascript" src="{{ asset('js/common.js') }}"></script>
 <script type="text/javascript" rel="javascript" src="{{ asset('js/routes.js') }}"></script>
+<script type="text/javascript" rel="javascript" src="{{ asset('js/login.js') }}"></script>
+
 </html>
