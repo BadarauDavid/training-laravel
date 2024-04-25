@@ -93,7 +93,10 @@ class CartController extends Controller
             'customer_comment' => ['required'],
         ]);
 
-        $order = Order::create($validatedData);
+        $order = new Order();
+        $order->fill($validatedData);
+        $order->save();
+
         $products = $this->fetchProductsFromCart($request);
 
         $order->products()->attach($request->session()->get('cart', []));
