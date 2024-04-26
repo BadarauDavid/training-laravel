@@ -15,9 +15,8 @@ $(document).ready(function () {
         formData.append('description', $("#description").val());
         formData.append('price', $("#price").val());
         formData.append('img_link', $('#fileToUpload')[0].files[0]);
-        console.log(formData);
 
-        $.ajax('handleProduct?id='+id, {
+        $.ajax('handleProduct?id=' + id, {
             type: 'post',
             dataType: 'json',
             data: formData,
@@ -153,9 +152,8 @@ $(document).ready(function () {
             case (window.location.hash.match(/#cart\/\d+/) || {}).input:
                 $.ajax('/deleteFromCart?productId=' + window.location.hash.split('/')[1], {
                     dataType: 'json',
-                    success: function (response) {
+                    success: function () {
                         window.location.hash = "#cart";
-                        console.log(response);
                     }
                 });
                 break;
@@ -176,9 +174,8 @@ $(document).ready(function () {
             case (window.location.hash.match(/#products\/\d+/) || {}).input:
                 $.ajax('/deleteProduct?productId=' + window.location.hash.split('/')[1], {
                     dataType: 'json',
-                    success: function (response) {
+                    success: function () {
                         window.location.hash = "#products";
-                        console.log(response);
                     }
                 });
                 break;
@@ -196,7 +193,6 @@ $(document).ready(function () {
                     url: '/product?productId=' + window.location.hash.split('/')[1],
                     dataType: 'json',
                     success: function (product) {
-                        console.log(product.data.product);
                         $('.product .product-form').html(renderProductForm(product.data.product));
                     },
                     error: function () {
@@ -210,8 +206,20 @@ $(document).ready(function () {
                 $.ajax('/orders', {
                     dataType: 'json',
                     success: function (response) {
-                        console.log(response);
                         $('.orders .list').html(renderOrders(response.data.orders));
+                    },
+                    error: function () {
+                        window.location.hash = '#login';
+                    }
+                });
+                break;
+
+            case (window.location.hash.match(/#order\/\d+/) || {}).input:
+                $('.order').show();
+                $.ajax('/order?productId='+  window.location.hash.split('/')[1], {
+                    dataType: 'json',
+                    success: function (response) {
+                        $('.order .list').html(renderOrder(response.data.order));
                     },
                     error: function () {
                         window.location.hash = '#login';
@@ -223,7 +231,6 @@ $(document).ready(function () {
                 $.ajax('/index', {
                     dataType: 'json',
                     success: function (response) {
-                        // Render the products in the index list
                         $('.index .list').html(renderList(response.data.products, 'all'));
                     }
                 });

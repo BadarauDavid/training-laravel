@@ -48,11 +48,17 @@
     <table class="list"></table>
 </div>
 
+<!-- The order page -->
+<div class="page order">
+    <table class="list"></table>
+</div>
+
 </body>
 <script type="text/javascript" rel="javascript" src="{{ asset('js/common.js') }}"></script>
 <script type="text/javascript" rel="javascript" src="{{ asset('js/routes.js') }}"></script>
 <script type="text/javascript" rel="javascript" src="{{ asset('js/login.js') }}"></script>
 <script type="text/javascript" rel="javascript" src="{{ asset('js/product.js') }}"></script>
 <script type="text/javascript" rel="javascript" src="{{ asset('js/orders.js') }}"></script>
+<script type="text/javascript" rel="javascript" src="{{ asset('js/order.js') }}"></script>
 
 </html>
