@@ -43,10 +43,16 @@
     <form class="product-form"></form>
 </div>
 
+<!-- The orders page -->
+<div class="page orders">
+    <table class="list"></table>
+</div>
+
 </body>
 <script type="text/javascript" rel="javascript" src="{{ asset('js/common.js') }}"></script>
 <script type="text/javascript" rel="javascript" src="{{ asset('js/routes.js') }}"></script>
 <script type="text/javascript" rel="javascript" src="{{ asset('js/login.js') }}"></script>
 <script type="text/javascript" rel="javascript" src="{{ asset('js/product.js') }}"></script>
+<script type="text/javascript" rel="javascript" src="{{ asset('js/orders.js') }}"></script>
 
 </html>

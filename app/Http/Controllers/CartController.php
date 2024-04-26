@@ -81,11 +81,17 @@ class CartController extends Controller
 
     public function checkOutCart(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'customer_name' => ['required'],
             'customer_contact' => ['required'],
             'customer_comment' => ['required'],
         ]);
+
+        $validatedData = [
+            'customer_name' => $request->input('customer_name'),
+            'customer_contact' => $request->input('customer_contact'),
+            'customer_comment' => $request->input('customer_comment'),
+        ];
 
         $order = new Order();
         $order->fill($validatedData);
@@ -93,7 +99,13 @@ class CartController extends Controller
 
         $products = $this->fetchProductsFromCart($request);
 
-        $order->products()->attach($request->session()->get('cart', []));
+        foreach ($products as $product) {
+            $existingProduct = Product::query()->where('id', $product['id'])->first();
+            if ($existingProduct) {
+                $order->products()->attach($existingProduct->id);
+            }
+        }
+
         $subject = "New Order";
         $to = config('mail.to.address');
 
@@ -105,7 +117,7 @@ class CartController extends Controller
                 $validatedData['customer_comment'])
         );
 
-        $request->session()->put('cart', []);
+        $request->session()->forget('cart');
 
         $message = 'Your order has been placed';
         session()->flash('success', $message);

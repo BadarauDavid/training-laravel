@@ -94,16 +94,18 @@ $(document).ready(function () {
             },
             error: function (response) {
                 const res = response.responseJSON.errors;
-                if (res.customer_name) {
-                    $('#costumerNameErrorMsg').text(res.customer_name);
-                }
+                if (res) {
+                    if (res.customer_name) {
+                        $('#costumerNameErrorMsg').text(res.customer_name);
+                    }
 
-                if (res.customer_contact) {
-                    $('#costumerContactErrorMsg').text(res.customer_contact);
-                }
+                    if (res.customer_contact) {
+                        $('#costumerContactErrorMsg').text(res.customer_contact);
+                    }
 
-                if (res.customer_comment) {
-                    $('#costumerCommentErrorMsg').text(res.customer_comment);
+                    if (res.customer_comment) {
+                        $('#costumerCommentErrorMsg').text(res.customer_comment);
+                    }
                 }
             }
         });
@@ -202,6 +204,21 @@ $(document).ready(function () {
                     }
                 });
                 break;
+
+            case '#orders':
+                $('.orders').show();
+                $.ajax('/orders', {
+                    dataType: 'json',
+                    success: function (response) {
+                        console.log(response);
+                        $('.orders .list').html(renderOrders(response.data.orders));
+                    },
+                    error: function () {
+                        window.location.hash = '#login';
+                    }
+                });
+                break;
+
             default:
                 $.ajax('/index', {
                     dataType: 'json',
