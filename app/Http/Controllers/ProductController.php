@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function edit(Request $request)
     {
         $id = $request->input('productId');
-        $product = Product::find($id);
+        $product = Product::query()->findOrFail($id);
         if (!$product) {
             abort(404);
         }
@@ -29,7 +29,7 @@ class ProductController extends Controller
 
     public function update(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'title' => ['required', 'sometimes'],
             'description' => ['required', 'sometimes'],
             'price' => ['required', 'numeric', 'sometimes'],
@@ -38,15 +38,13 @@ class ProductController extends Controller
 
         $id = $request->input('id');
 
-        $product = Product::find($id);
-        $product->title = $request->input('title');
-        $product->description = $request->input('description');
-        $product->price = $request->input('price');
+        $product = Product::query()->findOrFail($id);
+        $product->fill($validatedData);
 
         if ($request->hasFile('img_link')) {
             $imageName = uniqid() . '.' . $request->file('img_link')->getClientOriginalExtension();
             $request->file('img_link')->storeAs('public/images', $imageName);
-            $product->img_link = $imageName;
+            $product->setAttribute('img_link', $imageName);
         }
 
         $product->save();
@@ -60,8 +58,7 @@ class ProductController extends Controller
 
     public function allProducts()
     {
-        $products = Product::all();
-
+        $products = Product::query()->get();
         $data = compact('products');
         return request()->isXmlHttpRequest() ?
             compact('data') : view('products', $data);
@@ -71,7 +68,7 @@ class ProductController extends Controller
     {
         $id = $request->input('productId');
 
-        Product::destroy($id);
+        Product::query()->where('id', $id)->delete();
 
         $message = 'The product was successfully deleted';
         session()->flash('success', $message);

@@ -12,22 +12,21 @@ class CartController extends Controller
 {
     private function fetchProductsFromCart(Request $request)
     {
-        if (!empty($request->session()->get('cart', []))) {
-            $cartItems = collect(session('cart', []))->filter(function ($item) {
+        $cartItems = $request->session()->get('cart', []);
+
+        if (!empty($cartItems)) {
+            $cartItems = collect($cartItems)->filter(function ($item) {
                 return !is_null($item);
             })->values()->all();
 
-            $products = Product::whereIn('id', $cartItems)->get();
-        } else {
-            $products = [];
+            return Product::query()->whereIn('id', $cartItems)->get();
         }
-        return $products;
+        return [];
     }
 
     public function allProductsFromCart(Request $request)
     {
         $products = $this->fetchProductsFromCart($request);
-
         $data = compact('products');
 
         return request()->isXmlHttpRequest() ?
@@ -36,14 +35,12 @@ class CartController extends Controller
 
     public function addToCart(Request $request)
     {
-
         if (!$request->session()->has('cart')) {
             $request->session()->put('cart', []);
         }
 
         $productId = $request->input('productId');
         $cart = $request->session()->get('cart', []);
-
 
         if (!in_array($productId, $cart)) {
             $cart[] = $productId;
@@ -60,16 +57,13 @@ class CartController extends Controller
     public function deleteFromCart(Request $request)
     {
         $cart = $request->session()->get('cart', []);
-
         $productId = $request->input('productId');
-
 
         if (!is_numeric($productId) || !in_array($productId, $cart)) {
             return $request->isXmlHttpRequest() ?
                 response()->json(['error' => 'Invalid product or product not found in cart']) :
                 redirect()->route('cart')->with('error', 'Invalid product or product not found in cart');
         }
-
 
         foreach ($cart as $key => $value) {
             if ($value == $productId) {

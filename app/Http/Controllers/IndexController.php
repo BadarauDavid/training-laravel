@@ -9,20 +9,21 @@ class IndexController extends Controller
 {
     public function index(Request $request)
     {
-        if (!empty($request->session()->get('cart', []))) {
-            $cartItems = collect(session('cart', []))->filter(function ($item) {
+        $cartItems = $request->session()->get('cart', []);
+        $productsQuery = Product::query();
+        if (!empty($cartItems)) {
+            $cartItems = collect($cartItems)->filter(function ($item) {
                 return !is_null($item);
             })->values()->all();
 
-            $products = Product::whereNotIn('id', $cartItems)->get();
-
-        } else {
-            $products = Product::all();
+            $productsQuery->whereNotIn('id', $cartItems)->get();
         }
 
+        $products = $productsQuery->get();
         $data = compact('products');
 
         return request()->isXmlHttpRequest() ?
             compact('data') : view('index', $data);
+
     }
 }

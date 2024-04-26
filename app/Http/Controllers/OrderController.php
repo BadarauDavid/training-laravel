@@ -9,7 +9,7 @@ class OrderController extends Controller
 {
     public function allOrders()
     {
-        $orders = Order::select('orders.id AS order_id', 'orders.created_at AS order_created_at')
+        $orders = Order::query()->select('orders.id AS order_id', 'orders.created_at AS order_created_at')
             ->selectRaw('SUM(products.price) AS total_price')
             ->selectRaw('GROUP_CONCAT(products.title SEPARATOR ", ") AS product_titles')
             ->leftJoin('order_product', 'orders.id', '=', 'order_product.order_id')
@@ -26,8 +26,8 @@ class OrderController extends Controller
     public function showOrder(Request $request)
     {
         $orderId = $request->input('productId');
-        $order = Order::where('id', $orderId)->with('products')->first();
 
+        $order = Order::query()->where('id', $orderId)->with('products')->first();
         $data = compact('order');
 
         return request()->isXmlHttpRequest() ?
