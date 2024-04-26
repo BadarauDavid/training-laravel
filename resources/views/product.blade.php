@@ -9,9 +9,8 @@
 <body>
 <h1>{{ __('Edit Product') }}</h1>
 
-<form method="post" action="{{ route('update') }}?id={{ $product->id }}" enctype="multipart/form-data">
+<form method="post" action="{{ route('handleProduct') }}?id={{ $product->id }}" enctype="multipart/form-data">
     @csrf
-    @method('PUT')
 
     <input type="text"
            name="title"

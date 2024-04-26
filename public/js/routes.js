@@ -9,16 +9,15 @@ $(document).ready(function () {
 
     $(document).on('click', '#submitProduct', function (e) {
         e.preventDefault();
-
+        let id = window.location.hash.split('/')[1] ? window.location.hash.split('/')[1] : 0;
         let formData = new FormData();
         formData.append('title', $("#title").val());
         formData.append('description', $("#description").val());
         formData.append('price', $("#price").val());
         formData.append('img_link', $('#fileToUpload')[0].files[0]);
+        console.log(formData);
 
-
-        console.log(title, description, price, fileToUpload);
-        $.ajax('/handleAddProduct', {
+        $.ajax('handleProduct?id='+id, {
             type: 'post',
             dataType: 'json',
             data: formData,
@@ -187,6 +186,22 @@ $(document).ready(function () {
                 $('.product .product-form').html(renderProductForm());
                 break;
 
+
+            case (window.location.hash.match(/#product\/\d+/) || {}).input:
+                $('.product').show();
+                $.ajax({
+                    type: 'get',
+                    url: '/product?productId=' + window.location.hash.split('/')[1],
+                    dataType: 'json',
+                    success: function (product) {
+                        console.log(product.data.product);
+                        $('.product .product-form').html(renderProductForm(product.data.product));
+                    },
+                    error: function () {
+                        window.location.hash = '#login';
+                    }
+                });
+                break;
             default:
                 $.ajax('/index', {
                     dataType: 'json',

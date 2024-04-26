@@ -9,7 +9,7 @@
 <body>
 <h1>{{ __('Add product') }}</h1>
 
-<form method="post" action="/handleAddProduct" enctype="multipart/form-data">
+<form method="post" action="/handleProduct" enctype="multipart/form-data">
     @csrf
 
     <input type="text"

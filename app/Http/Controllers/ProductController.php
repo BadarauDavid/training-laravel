@@ -27,35 +27,46 @@ class ProductController extends Controller
             compact('data') : view('product', $data);
     }
 
-    public function update(Request $request)
+    public function handleProduct(Request $request)
     {
-        $validatedData = $request->validate([
-            'title' => ['required', 'sometimes'],
-            'description' => ['required', 'sometimes'],
-            'price' => ['required', 'numeric', 'sometimes'],
-            'img_link' => ['image', 'sometimes'],
+        $request->validate([
+            'title' => ['required'],
+            'description' => ['required'],
+            'price' => ['required', 'numeric'],
+            'img_link' => ['required', 'image'],
         ]);
 
-        $id = $request->input('id');
-
-        $product = Product::query()->findOrFail($id);
-        $product->fill($validatedData);
+        $validatedData = [
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'price' => $request->input('price'),
+        ];
 
         if ($request->hasFile('img_link')) {
             $imageName = uniqid() . '.' . $request->file('img_link')->getClientOriginalExtension();
             $request->file('img_link')->storeAs('public/images', $imageName);
-            $product->setAttribute('img_link', $imageName);
+            $validatedData['img_link'] = $imageName;
         }
 
-        $product->save();
+        $id = $request->input('id');
 
-        $message = 'The product was successfully updated';
+        if ($id) {
+            $product = Product::query()->findOrFail($id);
+            $product->fill($validatedData);
+            $product->save();
+            $message = 'The product was successfully updated';
+        } else {
+            $newProduct = new Product();
+            $newProduct->fill($validatedData);
+            $newProduct->save();
+            $message = 'The product was successfully added';
+        }
+
         session()->flash('success', $message);
 
-        return request()->isXmlHttpRequest() ?
-            response()->json(['success' => 'The product was successfully updated']) : redirect()->route('products');
+        return $request->isXmlHttpRequest() ?
+            response()->json(['success' => $message]) : redirect()->route('products');
     }
-
     public function allProducts()
     {
         $products = Product::query()->get();
@@ -77,33 +88,5 @@ class ProductController extends Controller
             response()->json(['success' => $message]) : redirect()->route('products');
     }
 
-    public function handleAddProduct(Request $request)
-    {
-        $request->validate([
-            'title' => ['required'],
-            'description' => ['required'],
-            'price' => ['required', 'numeric'],
-            'img_link' => ['required', 'image'],
-        ]);
 
-        $imageName = uniqid() . '.' . $request->file('img_link')->getClientOriginalExtension();
-        $request->file('img_link')->storeAs('public/images', $imageName);
-
-        $product = [
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'price' => $request->input('price'),
-            'img_link' => $imageName,
-        ];
-
-        $newProduct = new Product();
-        $newProduct->fill($product);
-        $newProduct->save();
-
-        $message = 'The product was successfully added';
-        session()->flash('success', $message);
-
-        return request()->isXmlHttpRequest() ?
-            response()->json(['success' => $message]) : redirect()->route('products');
-    }
 }

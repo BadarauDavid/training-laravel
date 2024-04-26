@@ -5,7 +5,7 @@ function renderProductForm(product) {
                 <br>
                 <div style="color:red;" id="titleErrorMsg" class="error"></div>
                 <br>
-                <input type="text" id="description" placeholder=${translate('Description')}>${escapeHtml(product.description || '')}</input>
+                <input type="text" id="description" placeholder=${translate('Description')} value="${escapeHtml(product.description || '')}"</input>
                 <br>
                 <div style="color:red;" id="descriptionErrorMsg" class="error"></div>
                 <br>
