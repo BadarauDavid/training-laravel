@@ -58,25 +58,6 @@ class ProductController extends Controller
             response()->json(['success' => 'The product was successfully updated']) : redirect()->route('products');
     }
 
-    public function index(Request $request)
-    {
-        if (!empty($request->session()->get('cart', []))) {
-            $cartItems = collect(session('cart', []))->filter(function ($item) {
-                return !is_null($item);
-            })->values()->all();
-
-            $products = Product::whereNotIn('id', $cartItems)->get();
-
-        } else {
-            $products = Product::all();
-        }
-
-        $data = compact('products');
-
-        return request()->isXmlHttpRequest() ?
-            compact('data') : view('index', $data);
-    }
-
     public function allProducts()
     {
         $products = Product::all();
