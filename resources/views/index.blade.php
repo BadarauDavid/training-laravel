@@ -16,7 +16,7 @@
     <a href="{{ route('orders') }}">{{ __('All Orders') }}</a>
     <form method="POST" action="/logout">
         @csrf
-        <button type="submit">Log Out</button>
+        <button type="submit">{{__('Log Out')}}</button>
     </form>
 @endguest
 {{--<a href="{{ route('products.index') }}">{{ __('Products') }}</a>--}}
