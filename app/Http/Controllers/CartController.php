@@ -86,11 +86,7 @@ class CartController extends Controller
             'customer_comment' => ['required'],
         ]);
 
-        $validatedData = [
-            'customer_name' => $request->input('customer_name'),
-            'customer_contact' => $request->input('customer_contact'),
-            'customer_comment' => $request->input('customer_comment'),
-        ];
+        $validatedData = $request->only(['customer_name', 'customer_contact', 'customer_comment']);
 
         $order = new Order();
         $order->fill($validatedData);

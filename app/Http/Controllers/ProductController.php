@@ -36,11 +36,7 @@ class ProductController extends Controller
             'img_link' => ['required', 'image'],
         ]);
 
-        $validatedData = [
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'price' => $request->input('price'),
-        ];
+        $validatedData = $request->only(['title', 'description', 'price', 'img_link']);
 
         if ($request->hasFile('img_link')) {
             $imageName = uniqid() . '.' . $request->file('img_link')->getClientOriginalExtension();
