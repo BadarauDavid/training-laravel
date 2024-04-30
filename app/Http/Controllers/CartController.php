@@ -66,11 +66,9 @@ class CartController extends Controller
                 redirect()->route('cart')->with('error', $message);
         }
 
-        foreach ($cart as $key => $value) {
-            if ($value == $productId) {
-                unset($cart[$key]);
-                break;
-            }
+        $index = array_search($productId, $cart);
+        if ($index !== false) {
+            unset($cart[$index]);
         }
 
         $request->session()->put('cart', $cart);
