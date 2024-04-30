@@ -22,10 +22,11 @@ class ProductController extends Controller
         ]);
 
         $validatedData = $request->only(['title', 'description', 'price', 'img_link']);
+        $imgLinkFile = $request->file('img_link');
 
         if ($request->hasFile('img_link')) {
-            $imageName = uniqid() . '.' . $request->file('img_link')->getClientOriginalExtension();
-            $request->file('img_link')->storeAs('public/images', $imageName);
+            $imageName = uniqid() . '.' . $imgLinkFile->getClientOriginalExtension();
+            $imgLinkFile->storeAs('public/images', $imageName);
             $validatedData['img_link'] = $imageName;
         }
 
