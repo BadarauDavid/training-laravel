@@ -67,9 +67,6 @@ class ProductController extends Controller
     {
         $id = $request->input('productId');
         $product = Product::query()->findOrFail($id);
-        if (!$product) {
-            abort(404);
-        }
 
         $data = compact('product');
 
@@ -82,7 +79,7 @@ class ProductController extends Controller
     {
         $id = $request->input('productId');
 
-        Product::query()->where('id', $id)->delete();
+        Product::query()->findOrFail($id)->delete();
 
         $message = __('The product was successfully deleted');
         session()->flash('success', $message);
