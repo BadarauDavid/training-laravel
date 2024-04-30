@@ -17,22 +17,20 @@ class LoginController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
-        $email = $validatedData['email'];
-        $password = $validatedData['password'];
 
-        if (!auth()->attempt(['email' => $email, 'password' => $password])) {
+        $credentials = $request->only('email', 'password');
+
+
+        if (!auth()->attempt($credentials)) {
             return back()
                 ->withInput()
                 ->withErrors(['email' => 'Email or password is incorrect']);
         }
 
-        session()->regenerate();
-        session()->put('role', 'admin');
-
         $message = __('You successfully logged in');
         session()->flash('success', $message);
 
         return request()->isXmlHttpRequest() ?
-            response()->json([$message]) : redirect()->route('index');
+            response()->json([$message]) : redirect()->route('products');
     }
 }
