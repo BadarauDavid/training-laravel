@@ -21,23 +21,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/index', [IndexController::class, 'index'])->name('index');
 
-Route::get('/cart', [CartController::class, 'allProductsFromCart'])->name('cart');
-Route::get('/addToCart', [CartController::class, 'addToCart'])->name('addToCart');
-Route::get('/deleteFromCart', [CartController::class, 'deleteFromCart'])->name('deleteFromCart');
-Route::post('/checkOutCart', [CartController::class, 'checkOutCart'])->name('checkOutCart');
+Route::get('/cart', [CartController::class, 'allProducts'])->name('cart');
+Route::get('/addToCart', [CartController::class, 'add'])->name('addToCart');
+Route::get('/deleteFromCart', [CartController::class, 'delete'])->name('deleteFromCart');
+Route::post('/checkOutCart', [CartController::class, 'checkOut'])->name('checkOutCart');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/handleLogin', [LoginController::class, 'login'])->name('handleLogin')->middleware('guest');
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout')->middleware('auth');
 
-Route::get('/products', [ProductController::class, 'allProducts'])->name('products')->middleware('auth');
-Route::get('/addProduct', [ProductController::class, 'addProduct'])->name('addProduct')->middleware('auth');
+Route::get('/products', [ProductController::class, 'all'])->name('products')->middleware('auth');
+Route::get('/addProduct', [ProductController::class, 'add'])->name('addProduct')->middleware('auth');
 Route::get('/product', [ProductController::class, 'edit'])->name('product')->middleware('auth');
-Route::get('/deleteProduct', [ProductController::class, 'deleteProduct'])->name('deleteProduct')->middleware('auth');
-Route::post('/handleProduct', [ProductController::class, 'handleProduct'])->name('handleProduct')->middleware('auth');
+Route::get('/deleteProduct', [ProductController::class, 'delete'])->name('deleteProduct')->middleware('auth');
+Route::post('/handleProduct', [ProductController::class, 'handle'])->name('handleProduct')->middleware('auth');
 
-Route::get('/order', [OrderController::class, 'showOrder'])->name('order')->middleware('auth');
-Route::get('/orders', [OrderController::class, 'allOrders'])->name('orders')->middleware('auth');
+Route::get('/order', [OrderController::class, 'showOne'])->name('order')->middleware('auth');
+Route::get('/orders', [OrderController::class, 'all'])->name('orders')->middleware('auth');
 
 Route::get('/spa', function () {
     return view('spa');

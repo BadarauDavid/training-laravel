@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function addProduct()
+    public function add()
     {
         return view('addProduct');
     }
 
-    public function handleProduct(Request $request)
+    public function handle(Request $request)
     {
         $request->validate([
             'title' => ['required'],
@@ -49,7 +49,7 @@ class ProductController extends Controller
             response()->json([$message]) : redirect()->route('products');
     }
 
-    public function allProducts()
+    public function all()
     {
         $products = Product::query()->get();
         $data = compact('products');
@@ -72,7 +72,7 @@ class ProductController extends Controller
     }
 
 
-    public function deleteProduct(Request $request)
+    public function delete(Request $request)
     {
         $id = $request->input('productId');
 

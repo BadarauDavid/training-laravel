@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function allOrders()
+    public function all()
     {
         $orders = Order::query()->select('orders.id AS order_id', 'orders.created_at AS order_created_at')
             ->selectRaw('SUM(products.price) AS total_price')
@@ -23,7 +23,7 @@ class OrderController extends Controller
             compact('data') : view('orders', $data);
     }
 
-    public function showOrder(Request $request)
+    public function showOne(Request $request)
     {
         $orderId = $request->input('productId');
 

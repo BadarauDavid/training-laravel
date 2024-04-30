@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
 {
-    private function fetchProductsFromCart(Request $request)
+    private function fetchProducts(Request $request)
     {
         $cartItems = $request->session()->get('cart', []);
 
@@ -24,16 +24,16 @@ class CartController extends Controller
         return [];
     }
 
-    public function allProductsFromCart(Request $request)
+    public function allProducts(Request $request)
     {
-        $products = $this->fetchProductsFromCart($request);
+        $products = $this->fetchProducts($request);
         $data = compact('products');
 
         return request()->isXmlHttpRequest() ?
             compact('data') : view('cart', $data);
     }
 
-    public function addToCart(Request $request)
+    public function add(Request $request)
     {
         if (!$request->session()->has('cart')) {
             $request->session()->put('cart', []);
@@ -54,7 +54,7 @@ class CartController extends Controller
             response()->json([$message]) : redirect()->route('index');
     }
 
-    public function deleteFromCart(Request $request)
+    public function delete(Request $request)
     {
         $cart = $request->session()->get('cart', []);
         $productId = $request->input('productId');
@@ -78,7 +78,7 @@ class CartController extends Controller
             redirect()->route('cart')->with('success', $message);
     }
 
-    public function checkOutCart(Request $request)
+    public function checkOut(Request $request)
     {
         $request->validate([
             'customer_name' => ['required'],
@@ -92,7 +92,7 @@ class CartController extends Controller
         $order->fill($validatedData);
         $order->save();
 
-        $products = $this->fetchProductsFromCart($request);
+        $products = $this->fetchProducts($request);
 
         foreach ($products as $product) {
             $existingProduct = Product::query()->where('id', $product['id'])->first();
