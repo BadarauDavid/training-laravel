@@ -65,8 +65,9 @@ class ProductController extends Controller
         session()->flash('success', $message);
 
         return $request->isXmlHttpRequest() ?
-            response()->json(['success' => $message]) : redirect()->route('products');
+            response()->json([$message]) : redirect()->route('products');
     }
+
     public function allProducts()
     {
         $products = Product::query()->get();
@@ -85,8 +86,6 @@ class ProductController extends Controller
         session()->flash('success', $message);
 
         return request()->isXmlHttpRequest() ?
-            response()->json(['success' => $message]) : redirect()->route('products');
+            response()->json([$message]) : redirect()->route('products');
     }
-
-
 }
