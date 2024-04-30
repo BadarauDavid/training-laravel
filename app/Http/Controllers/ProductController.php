@@ -54,12 +54,12 @@ class ProductController extends Controller
             $product = Product::query()->findOrFail($id);
             $product->fill($validatedData);
             $product->save();
-            $message = 'The product was successfully updated';
+            $message = __('The product was successfully updated');
         } else {
             $newProduct = new Product();
             $newProduct->fill($validatedData);
             $newProduct->save();
-            $message = 'The product was successfully added';
+            $message = __('The product was successfully added');
         }
 
         session()->flash('success', $message);
@@ -81,7 +81,7 @@ class ProductController extends Controller
 
         Product::query()->where('id', $id)->delete();
 
-        $message = 'The product was successfully deleted';
+        $message = __('The product was successfully deleted');
         session()->flash('success', $message);
 
         return request()->isXmlHttpRequest() ?

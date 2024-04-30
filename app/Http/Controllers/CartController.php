@@ -45,9 +45,9 @@ class CartController extends Controller
         if (!in_array($productId, $cart)) {
             $cart[] = $productId;
             $request->session()->put('cart', $cart);
-            $message = 'Product add successfully';
+            $message = __('Product add successfully');
         } else {
-            $message = 'Product already added to cart';
+            $message = __('Product already added to cart');
         }
 
         return request()->isXmlHttpRequest() ?
@@ -60,9 +60,10 @@ class CartController extends Controller
         $productId = $request->input('productId');
 
         if (!is_numeric($productId) || !in_array($productId, $cart)) {
+            $message = __('Invalid product or product not found in cart');
             return $request->isXmlHttpRequest() ?
-                response()->json(['error' => 'Invalid product or product not found in cart']) :
-                redirect()->route('cart')->with('error', 'Invalid product or product not found in cart');
+                response()->json(['error' =>$message]) :
+                redirect()->route('cart')->with('error', $message);
         }
 
         foreach ($cart as $key => $value) {
@@ -73,10 +74,10 @@ class CartController extends Controller
         }
 
         $request->session()->put('cart', $cart);
-
+        $message = __('Product removed from cart successfully');
         return $request->isXmlHttpRequest() ?
-            response()->json(['success' => 'Product removed from cart successfully']) :
-            redirect()->route('cart')->with('success', 'Product removed from cart successfully');
+            response()->json(['success' => $message]) :
+            redirect()->route('cart')->with('success', $message);
     }
 
     public function checkOutCart(Request $request)
@@ -106,7 +107,7 @@ class CartController extends Controller
             }
         }
 
-        $subject = "New Order";
+        $subject = __('New Order');
         $to = config('mail.to.address');
 
         Mail::to($to)->send(new NewOrderMail(
@@ -119,7 +120,7 @@ class CartController extends Controller
 
         $request->session()->forget('cart');
 
-        $message = 'Your order has been placed';
+        $message = __('Your order has been placed');
         session()->flash('success', $message);
 
         return request()->isXmlHttpRequest() ?

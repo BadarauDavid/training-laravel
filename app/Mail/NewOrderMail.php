@@ -36,10 +36,10 @@ class NewOrderMail extends Mailable
         return $this->subject($this->subject)
             ->view('emails.new_order')
             ->with([
-                'products' => $this->products,
-                'customerName' => $this->customerName,
-                'customerContact' => $this->customerContact,
-                'customerComment' => $this->comment,
+                __('products') => $this->products,
+                __('customerName') => $this->customerName,
+                __('customerContact') => $this->customerContact,
+                __('customerComment') => $this->comment,
             ]);
     }
 }

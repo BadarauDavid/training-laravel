@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class LogoutController extends Controller
 {
-    public function logout(Request $request)
+    public function logout()
     {
         auth()->logout();
 
-        $message = 'You have been logged out';
+        $message = __('You have been logged out');
         session()->flash('success', $message);
 
         return request()->isXmlHttpRequest() ?

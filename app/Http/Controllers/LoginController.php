@@ -29,7 +29,7 @@ class LoginController extends Controller
         session()->regenerate();
         session()->put('role', 'admin');
 
-        $message = 'You successfully logged in';
+        $message = __('You successfully logged in');
         session()->flash('success', $message);
 
         return request()->isXmlHttpRequest() ?
