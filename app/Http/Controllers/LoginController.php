@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -13,13 +14,10 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $validatedData = $request->validate([
+        $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
-
-        $credentials = $request->only('email', 'password');
-
 
         if (!auth()->attempt($credentials)) {
             return back()
@@ -27,6 +25,7 @@ class LoginController extends Controller
                 ->withErrors(['email' => 'Email or password is incorrect']);
         }
 
+        session()->regenerate();
         $message = __('You successfully logged in');
         session()->flash('success', $message);
 

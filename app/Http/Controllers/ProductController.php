@@ -7,24 +7,9 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-
     public function addProduct()
     {
         return view('addProduct');
-    }
-
-    public function edit(Request $request)
-    {
-        $id = $request->input('productId');
-        $product = Product::query()->findOrFail($id);
-        if (!$product) {
-            abort(404);
-        }
-
-        $data = compact('product');
-
-        return request()->isXmlHttpRequest() ?
-            compact('data') : view('product', $data);
     }
 
     public function handleProduct(Request $request)
@@ -71,6 +56,21 @@ class ProductController extends Controller
         return request()->isXmlHttpRequest() ?
             compact('data') : view('products', $data);
     }
+
+    public function edit(Request $request)
+    {
+        $id = $request->input('productId');
+        $product = Product::query()->findOrFail($id);
+        if (!$product) {
+            abort(404);
+        }
+
+        $data = compact('product');
+
+        return request()->isXmlHttpRequest() ?
+            compact('data') : view('product', $data);
+    }
+
 
     public function deleteProduct(Request $request)
     {

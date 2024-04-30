@@ -27,20 +27,22 @@ $(document).ready(function () {
             },
             error: function (response) {
                 const res = response.responseJSON.errors;
-                if (res.title) {
-                    $('#titleErrorMsg').text(res.title);
-                }
+                if (res) {
+                    if (res.title) {
+                        $('#titleErrorMsg').text(res.title);
+                    }
 
-                if (res.description) {
-                    $('#descriptionErrorMsg').text(res.description);
-                }
+                    if (res.description) {
+                        $('#descriptionErrorMsg').text(res.description);
+                    }
 
-                if (res.price) {
-                    $('#priceErrorMsg').text(res.price);
-                }
+                    if (res.price) {
+                        $('#priceErrorMsg').text(res.price);
+                    }
 
-                if (res.img_link) {
-                    $('#fileErrorMsg').text(res.img_link);
+                    if (res.img_link) {
+                        $('#fileErrorMsg').text(res.img_link);
+                    }
                 }
             }
         });
@@ -63,12 +65,14 @@ $(document).ready(function () {
             },
             error: function (response) {
                 const res = response.responseJSON.errors;
-                if (res.email) {
-                    $('#emailErrorMsg').text(res.email);
-                }
+                if (res) {
+                    if (res.email) {
+                        $('#emailErrorMsg').text(res.email);
+                    }
 
-                if (res.password) {
-                    $('#passwordErrorMsg').text(res.password);
+                    if (res.password) {
+                        $('#passwordErrorMsg').text(res.password);
+                    }
                 }
             }
         });
@@ -216,7 +220,7 @@ $(document).ready(function () {
 
             case (window.location.hash.match(/#order\/\d+/) || {}).input:
                 $('.order').show();
-                $.ajax('/order?productId='+  window.location.hash.split('/')[1], {
+                $.ajax('/order?productId=' + window.location.hash.split('/')[1], {
                     dataType: 'json',
                     success: function (response) {
                         $('.order .list').html(renderOrder(response.data.order));
