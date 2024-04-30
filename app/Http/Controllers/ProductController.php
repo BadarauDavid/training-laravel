@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -23,25 +24,29 @@ class ProductController extends Controller
 
         $validatedData = $request->only(['title', 'description', 'price', 'img_link']);
         $imgLinkFile = $request->file('img_link');
+        $id = $request->input('id');
 
         if ($request->hasFile('img_link')) {
             $imageName = uniqid() . '.' . $imgLinkFile->getClientOriginalExtension();
-            $imgLinkFile->storeAs('public/images', $imageName);
             $validatedData['img_link'] = $imageName;
         }
-
-        $id = $request->input('id');
 
         if ($id) {
             $product = Product::query()->findOrFail($id);
             $product->fill($validatedData);
-            $product->save();
+            $productSaved = $product->save();
             $message = __('The product was successfully updated');
         } else {
             $newProduct = new Product();
             $newProduct->fill($validatedData);
-            $newProduct->save();
+            $productSaved = $newProduct->save();
             $message = __('The product was successfully added');
+        }
+
+        if ($productSaved && $imgLinkFile) {
+            $imgLinkFile->storeAs('public/images', $imageName);
+        } elseif (!$productSaved && $imgLinkFile) {
+            Storage::delete('public/images/' . $imageName);
         }
 
         session()->flash('success', $message);
