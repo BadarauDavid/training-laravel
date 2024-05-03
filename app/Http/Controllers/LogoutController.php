@@ -12,6 +12,6 @@ class LogoutController extends Controller
         session()->flash('success', $message);
 
         return request()->isXmlHttpRequest() ?
-            response()->json([$message]) : redirect()->route('index');
+            response()->json(['message' => $message]) : redirect()->route('index');
     }
 }

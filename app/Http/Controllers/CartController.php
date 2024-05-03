@@ -51,30 +51,28 @@ class CartController extends Controller
         }
 
         return request()->isXmlHttpRequest() ?
-            response()->json([$message]) : redirect()->route('index');
+            response()->json(['message' => $message]) : redirect()->route('index');
     }
 
     public function delete(Request $request)
     {
         $cart = $request->session()->get('cart', []);
         $productId = $request->input('productId');
+        $index = array_search($productId, $cart);
 
-        if (!is_numeric($productId) || !in_array($productId, $cart)) {
+        if (!is_numeric($productId) || $index === false) {
             $message = __('Invalid product or product not found in cart');
             return $request->isXmlHttpRequest() ?
-                response()->json([$message]) :
+                response()->json(['message' => $message]) :
                 redirect()->route('cart')->with('error', $message);
         }
 
-        $index = array_search($productId, $cart);
-        if ($index !== false) {
-            unset($cart[$index]);
-        }
-
+        unset($cart[$index]);
         $request->session()->put('cart', $cart);
+
         $message = __('Product removed from cart successfully');
         return $request->isXmlHttpRequest() ?
-            response()->json([$message]) :
+            response()->json(['message' => $message]) :
             redirect()->route('cart')->with('success', $message);
     }
 
@@ -118,6 +116,6 @@ class CartController extends Controller
         session()->flash('success', $message);
 
         return request()->isXmlHttpRequest() ?
-            response()->json([$message]) : redirect()->route('index');
+            response()->json(['message' => $message]) : redirect()->route('index');
     }
 }

@@ -30,6 +30,6 @@ class LoginController extends Controller
         session()->flash('success', $message);
 
         return request()->isXmlHttpRequest() ?
-            response()->json([$message]) : redirect()->route('products');
+            response()->json(['message' => $message]) : redirect()->route('products');
     }
 }
