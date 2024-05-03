@@ -13,6 +13,25 @@ class ProductController extends Controller
         return view('addProduct');
     }
 
+    public function all()
+    {
+        $products = Product::query()->get();
+        $data = compact('products');
+        return request()->isXmlHttpRequest() ?
+            compact('data') : view('products', $data);
+    }
+
+    public function edit(Request $request)
+    {
+        $id = $request->input('productId');
+        $product = Product::query()->findOrFail($id);
+
+        $data = compact('product');
+
+        return request()->isXmlHttpRequest() ?
+            compact('data') : view('product', $data);
+    }
+
     public function handle(Request $request)
     {
         $request->validate([
@@ -54,26 +73,6 @@ class ProductController extends Controller
         return $request->isXmlHttpRequest() ?
             response()->json(['message' => $message]) : redirect()->route('products');
     }
-
-    public function all()
-    {
-        $products = Product::query()->get();
-        $data = compact('products');
-        return request()->isXmlHttpRequest() ?
-            compact('data') : view('products', $data);
-    }
-
-    public function edit(Request $request)
-    {
-        $id = $request->input('productId');
-        $product = Product::query()->findOrFail($id);
-
-        $data = compact('product');
-
-        return request()->isXmlHttpRequest() ?
-            compact('data') : view('product', $data);
-    }
-
 
     public function delete(Request $request)
     {

@@ -178,6 +178,7 @@ $(document).ready(function () {
             case (window.location.hash.match(/#products\/\d+/) || {}).input:
                 $.ajax('/deleteProduct?productId=' + window.location.hash.split('/')[1], {
                     dataType: 'json',
+                    type: 'post',
                     success: function () {
                         window.location.hash = "#products";
                     }

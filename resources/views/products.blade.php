@@ -28,8 +28,13 @@
             </div>
 
             <div class="item">
-                <a href="{{ route('deleteProduct', ['productId' => $product->id]) }}">{{ __('Delete') }}</a>
+                <form action="{{ route('deleteProduct', ['productId' => $product->id]) }}" method="POST">
+                    @csrf
+                    @method('POST')
+                    <button type="submit">{{ __('Delete') }}</button>
+                </form>
             </div>
+
             <div class="item">
                 <a href="{{ route('product', ['productId' => $product->id]) }}">{{ __('Edit') }}</a>
             </div>

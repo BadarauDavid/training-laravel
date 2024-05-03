@@ -18,12 +18,15 @@ class LoginController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
+//        dd(Hash::make($request->input("password")));
 
         if (!auth()->attempt($credentials)) {
             return back()
                 ->withInput()
                 ->withErrors(['email' => 'Email or password is incorrect']);
         }
+
+
 
         session()->regenerate();
         $message = __('You successfully logged in');

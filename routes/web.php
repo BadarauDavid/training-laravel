@@ -33,7 +33,7 @@ Route::post('/logout', [LogoutController::class, 'logout'])->name('logout')->mid
 Route::get('/products', [ProductController::class, 'all'])->name('products')->middleware('auth');
 Route::get('/addProduct', [ProductController::class, 'add'])->name('addProduct')->middleware('auth');
 Route::get('/product', [ProductController::class, 'edit'])->name('product')->middleware('auth');
-Route::get('/deleteProduct', [ProductController::class, 'delete'])->name('deleteProduct')->middleware('auth');
+Route::post('/deleteProduct', [ProductController::class, 'delete'])->name('deleteProduct')->middleware('auth');
 Route::post('/handleProduct', [ProductController::class, 'handle'])->name('handleProduct')->middleware('auth');
 
 Route::get('/order', [OrderController::class, 'showOne'])->name('order')->middleware('auth');
