@@ -17,6 +17,7 @@ function renderProductForm(product) {
                 <br>
                 <div style="color:red;" id="fileErrorMsg" class="error"></div>
                 <br>
-                <input id="submitProduct" type="submit" name="save" value=${translate('Save')}> <br><br>`;
+                <input type="hidden" id="productId" name="productId" value="${escapeHtml(product.id || '')}">
+                <input id="submitProduct" type="submit" name="save" value="${translate('Save')}"> <br><br>`;
     return html;
 }
