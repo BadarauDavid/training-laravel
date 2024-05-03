@@ -2,8 +2,7 @@ function translate(label) {
     return label
 }
 
-function escapeHtml(unsafe)
-{
+function escapeHtml(unsafe) {
     if (typeof unsafe !== 'string') {
         return unsafe;
     }
@@ -46,13 +45,23 @@ function renderList(products, page) {
 
         switch (page) {
             case 'all' :
-                html += '<a class="button" href="#' + product.id + '">' + translate('Add') + '</a>';
+                html += '<form id="addToCartForm">';
+                html += '<input type="hidden" id="productId" name="productId" value="' + product.id + '">';
+                html += '<input id="addToCart" type="submit" name="add" value="' + translate('Add') + '">';
+                html += '</form>';
                 break
             case 'cart' :
-                html += '<a class="button" href="#cart/' + product.id + '">' + translate('Remove') + '</a>';
+                html += '<form id="removeFromCartForm">';
+                html += '<input type="hidden" id="productId" name="productId" value="' + product.id + '">';
+                html += '<input id="removeFromCart" type="submit" name="remove" value="' + translate('Remove') + '">';
+                html += '</form>';
                 break
             case 'admin' :
-                html += '<a class="button" href="#products/' + product.id + '">' + translate('Delete') + ' </a>';
+                // html += '<a class="button" href="#products/' + product.id + '">' + translate('Delete') + ' </a>';
+                html += '<form id="deleteProductForm">';
+                html += '<input type="hidden" id="productId" name="productId" value="' + product.id + '">';
+                html += '<input id="deleteProduct" type="submit" name="delete" value="' + translate('Delete') + '">';
+                html += '</form>';
                 html += '<a class="button" href="#product/' + product.id + '">' + translate('Edit') + '</a>';
                 break
         }
