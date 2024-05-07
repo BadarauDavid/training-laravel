@@ -63,11 +63,11 @@ function renderList(products, page) {
                 html += '<input id="deleteProduct" type="submit" name="delete" value="' + translate('Delete') + '">';
                 html += '</form>';
 
-                // html += '<a class="button" href="#product/' + product.id + '">' + translate('Edit') + '</a>';
-                html += '<form id="editProductForm">';
-                html += '<input type="hidden" id="productId" name="productId" value="' + product.id + '">';
-                html += '<input id="editProduct" type="submit" name="edit" value="' + translate('Edit') + '">';
-                html += '</form>';
+                html += '<a class="button" href="#product/' + product.id + '">' + translate('Edit') + '</a>';
+                // html += '<form id="editProductForm">';
+                // html += '<input type="hidden" id="productId" name="productId" value="' + product.id + '">';
+                // html += '<input id="editProduct" type="submit" name="edit" value="' + translate('Edit') + '">';
+                // html += '</form>';
                 break
         }
 

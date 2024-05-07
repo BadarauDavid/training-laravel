@@ -9,7 +9,7 @@ $(document).ready(function () {
 
     $(document).on('click', '#submitProduct', function (e) {
         e.preventDefault();
-        let productId = $("#productId").val();
+        let productId = window.location.hash.split('/')[1];
         let id = productId ? productId : 0;
         let formData = new FormData();
         formData.append('title', $("#title").val());
@@ -24,7 +24,8 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function () {
-                window.location.reload();
+                // window.location.reload();
+                window.location.hash = "#products";
             },
             error: function (response) {
                 const res = response.responseJSON.errors;
@@ -146,38 +147,38 @@ $(document).ready(function () {
         });
     });
 
-    $(document).on('click', '#editProduct', function () {
-        let productId = $("#productId").val();
-        $('.page').hide();
-        $('.product').show();
-        $.ajax({
-            type: 'get',
-            url: '/product?productId=' +productId,
-            dataType: 'json',
-            success: function (product) {
-                $('.product .product-form').html(renderProductForm(product.data.product));
-            },
-            error: function () {
-                window.location.hash = '#login';
-            }
-        });
-    });
+    // $(document).on('click', '#editProduct', function () {
+    //     let productId = $("#productId").val();
+    //     $('.page').hide();
+    //     $('.product').show();
+    //     $.ajax({
+    //         type: 'get',
+    //         url: '/product?productId=' + productId,
+    //         dataType: 'json',
+    //         success: function (product) {
+    //             $('.product .product-form').html(renderProductForm(product.data.product));
+    //         },
+    //         error: function () {
+    //             window.location.hash = '#login';
+    //         }
+    //     });
+    // });
 
-    $(document).on('click', '#goToOrder', function () {
-        let orderId = $("#orderId").val();
-        $('.page').hide();
-        $('.order').show();
-        $.ajax('/order?productId=' + orderId, {
-            dataType: 'json',
-            success: function (response) {
-                $('.order .list').html(renderOrder(response.data.order));
-            },
-            error: function () {
-                window.location.hash = '#login';
-            }
-        });
-
-    });
+    // $(document).on('click', '#goToOrder', function () {
+    //     let orderId = $("#orderId").val();
+    //     $('.page').hide();
+    //     $('.order').show();
+    //     $.ajax('/order?productId=' + orderId, {
+    //         dataType: 'json',
+    //         success: function (response) {
+    //             $('.order .list').html(renderOrder(response.data.order));
+    //         },
+    //         error: function () {
+    //             window.location.hash = '#login';
+    //         }
+    //     });
+    //
+    // });
 
     window.onhashchange = function () {
         $('.page').hide();
@@ -227,12 +228,40 @@ $(document).ready(function () {
                 $('.product .product-form').html(renderProductForm());
                 break;
 
+            case (window.location.hash.match(/#product\/\d+/) || {}).input:
+                $('.product').show();
+                $.ajax({
+                    type: 'get',
+                    url: '/product?productId=' + window.location.hash.split('/')[1],
+                    dataType: 'json',
+                    success: function (product) {
+                        $('.product .product-form').html(renderProductForm(product.data.product));
+                    },
+                    error: function () {
+                        window.location.hash = '#login';
+                    }
+                });
+                break;
+
             case '#orders':
                 $('.orders').show();
                 $.ajax('/orders', {
                     dataType: 'json',
                     success: function (response) {
                         $('.orders .list').html(renderOrders(response.data.orders));
+                    },
+                    error: function () {
+                        window.location.hash = '#login';
+                    }
+                });
+                break;
+
+            case (window.location.hash.match(/#order\/\d+/) || {}).input:
+                $('.order').show();
+                $.ajax('/order?productId=' + window.location.hash.split('/')[1], {
+                    dataType: 'json',
+                    success: function (response) {
+                        $('.order .list').html(renderOrder(response.data.order));
                     },
                     error: function () {
                         window.location.hash = '#login';
