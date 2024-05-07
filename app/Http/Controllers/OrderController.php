@@ -27,12 +27,12 @@ class OrderController extends Controller
     {
         $orderId = $request->input('productId');
 
-        $order = Order::query()->where('id', $orderId)->with('products')->first();
+        $order = Order::query()->where('id', $orderId)->with('products')->firstOrFail();
 
         if (!$order) {
             $message = __('Invalid order id');
             return request()->isXmlHttpRequest() ?
-                response()->json(['message' => $message]) : redirect()->back()->withErrors(['message' => $message]);
+                response()->json(['message' => $message],404) : redirect()->back()->withErrors(['message' => $message]);
         }
 
         $data = compact('order');
